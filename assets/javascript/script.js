@@ -24,7 +24,7 @@ $("#submitButton").on("click", function(e){
     console.log("Submit Button has been clicked!");
     
     trainName = $("#addTrainName").val().trim(); 
-    destination = $("#addDestin.ation").val().trim();
+    destination = $("#addDestination").val().trim();
     frequency = $("#addFrequency").val().trim();
     arrival = $("#addNextArrival").val().trim();
     minutesAway = $("#addMinutesAway").val().trim();
@@ -37,15 +37,15 @@ $("#submitButton").on("click", function(e){
         howClose:minutesAway,
         dateAdded:firebase.database.ServerValue.TIMESTAMP,
     })
-event.preventDefault();
 });
 
 firebase.database().ref().on("child_added", function(snapshot){
-    $(".traininfo").append("<td>" + snapshot.val().name +"</td>");
-    $(".traininfo").append("<td>" + snapshot.val().heading +"</td>");
-    $(".traininfo").append("<td>" + snapshot.val().howOften +"</td>");
-    $(".traininfo").append("<td>" + snapshot.val().howClose +"</td>");
-    $(".traininfo").append("<td>" + snapshot.val().when +"</td>");
+    $("<tr>").append(".traininfo").addClass("nextRowTrainInfo");  
+    $(".nextRowTrainInfo").append("<td>" + snapshot.val().name +"</td>");
+    $(".nextRowTrainInfo").append("<td>" + snapshot.val().heading +"</td>");
+    $(".nextRowTrainInfo").append("<td>" + snapshot.val().howOften +"</td>");
+    $(".nextRowTrainInfo").append("<td>" + snapshot.val().howClose +"</td>");
+    $(".nextRowTrainInfo").append("<td>" + snapshot.val().when +"</td>");
 });
 
 firebase.database().ref().orderByChild("dateAdded").limitToLast(1).on("child_added",function(snapshot){
