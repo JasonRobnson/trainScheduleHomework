@@ -24,7 +24,7 @@ $("#submitButton").on("click", function(e){
     console.log("Submit Button has been clicked!");
     
     trainName = $("#addTrainName").val().trim(); 
-    destination = $("#addDestination").val().trim();
+    destination = $("#addDestin.ation").val().trim();
     frequency = $("#addFrequency").val().trim();
     arrival = $("#addNextArrival").val().trim();
     minutesAway = $("#addMinutesAway").val().trim();
@@ -35,15 +35,24 @@ $("#submitButton").on("click", function(e){
         howOften:frequency,
         when:arrival,
         howClose:minutesAway,
+        dateAdded:firebase.database.ServerValue.TIMESTAMP,
     })
 event.preventDefault();
 });
 
-firebase.database().ref().on("value",function(snapshot){
+firebase.database().ref().on("child_added", function(snapshot){
+    $(".traininfo").append("<td>" + snapshot.val().name +"</td>");
+    $(".traininfo").append("<td>" + snapshot.val().heading +"</td>");
+    $(".traininfo").append("<td>" + snapshot.val().howOften +"</td>");
+    $(".traininfo").append("<td>" + snapshot.val().howClose +"</td>");
+    $(".traininfo").append("<td>" + snapshot.val().when +"</td>");
+});
+
+firebase.database().ref().orderByChild("dateAdded").limitToLast(1).on("child_added",function(snapshot){
     $("#displayTname").html(snapshot.val().name);
     $("#displayDest").html(snapshot.val().heading);
     $("#displayFreq").html(snapshot.val().howOften);
-    $("#displayNextAr").html(snapshot.val().when);
+    $("#displayNextAr").html(snapshot.val().howClose);
     $("#displayMinutes").html(snapshot.val().when);
     
 })
