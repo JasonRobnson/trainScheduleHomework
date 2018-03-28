@@ -12,14 +12,13 @@
 
   firebase.initializeApp(config);
 
-//   let database = firebase.database().ref();
-
   let trainName =  "";
   let destination = "";
   let frequency = "";
   let arrival = "";
   let minutesAway = "";
 
+  //event handler for the submit button, upon clicking this handler assigns the form values to variables
 $("#submitButton").on("click", function(e){
     console.log("Submit Button has been clicked!");
     
@@ -28,7 +27,8 @@ $("#submitButton").on("click", function(e){
     frequency = $("#addFrequency").val().trim();
     arrival = $("#addNextArrival").val().trim();
     minutesAway = $("#addMinutesAway").val().trim();
-    
+ 
+//This creates an object on the database, by creating a key, and then assigning a value Key:Value
     firebase.database().ref().push({
         name:trainName,
         heading:destination,
@@ -38,16 +38,12 @@ $("#submitButton").on("click", function(e){
         dateAdded:firebase.database.ServerValue.TIMESTAMP,
     })
 });
-
+//this grabs the info from the database, creates another row and <td>, and adds the new row AFTER the .traininfo row
 firebase.database().ref().on("child_added", function(snapshot){
     $(".traininfo").after("<tr><td>" + snapshot.val().name +"</td><td>" + snapshot.val().heading +"</td><td>" + snapshot.val().howOften + "</td><td>" + snapshot.val().when + "</td><td>" + snapshot.val().howClose + "</td></tr>"); 
-    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().name +"</td>");
-    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().heading +"</td>");
-    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().howOften +"</td>");
-    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().howClose +"</td>");
-    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().when +"</td>");
-});
 
+});
+// this is for a single use to deposit one item into the #id
 // firebase.database().ref().orderByChild("dateAdded").limitToLast(3).on("child_added",function(snapshot){
 //     $("#displayTname").html(snapshot.val().name);
 //     $("#displayDest").html(snapshot.val().heading);
