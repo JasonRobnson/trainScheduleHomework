@@ -40,19 +40,19 @@ $("#submitButton").on("click", function(e){
 });
 
 firebase.database().ref().on("child_added", function(snapshot){
-    $("<tr>").append(".traininfo").addClass("nextRowTrainInfo");  
-    $(".nextRowTrainInfo").append("<td>" + snapshot.val().name +"</td>");
-    $(".nextRowTrainInfo").append("<td>" + snapshot.val().heading +"</td>");
-    $(".nextRowTrainInfo").append("<td>" + snapshot.val().howOften +"</td>");
-    $(".nextRowTrainInfo").append("<td>" + snapshot.val().howClose +"</td>");
-    $(".nextRowTrainInfo").append("<td>" + snapshot.val().when +"</td>");
+    $(".traininfo").after("<tr><td>" + snapshot.val().name +"</td><td>" + snapshot.val().heading +"</td><td>" + snapshot.val().howOften + "</td><td>" + snapshot.val().when + "</td><td>" + snapshot.val().howClose + "</td></tr>"); 
+    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().name +"</td>");
+    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().heading +"</td>");
+    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().howOften +"</td>");
+    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().howClose +"</td>");
+    // $(".nextRowTrainInfo").append("<td>" + snapshot.val().when +"</td>");
 });
 
-firebase.database().ref().orderByChild("dateAdded").limitToLast(1).on("child_added",function(snapshot){
-    $("#displayTname").html(snapshot.val().name);
-    $("#displayDest").html(snapshot.val().heading);
-    $("#displayFreq").html(snapshot.val().howOften);
-    $("#displayNextAr").html(snapshot.val().when);
-    $("#displayMinutes").html(snapshot.val().howClose);
+// firebase.database().ref().orderByChild("dateAdded").limitToLast(3).on("child_added",function(snapshot){
+//     $("#displayTname").html(snapshot.val().name);
+//     $("#displayDest").html(snapshot.val().heading);
+//     $("#displayFreq").html(snapshot.val().howOften);
+//     $("#displayNextAr").html(snapshot.val().when);
+//     $("#displayMinutes").html(snapshot.val().howClose);
     
-})
+// })
