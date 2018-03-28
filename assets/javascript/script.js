@@ -29,7 +29,7 @@ $("#submitButton").on("click", function(e){
     arrival = $("#addNextArrival").val().trim();
     minutesAway = $("#addMinutesAway").val().trim();
     
-    firebase.database().ref().set({
+    firebase.database().ref().push({
         name:trainName,
         heading:destination,
         howOften:frequency,
@@ -38,3 +38,12 @@ $("#submitButton").on("click", function(e){
     })
 event.preventDefault();
 });
+
+firebase.database().ref().on("value",function(snapshot){
+    $("#displayTname").html(snapshot.val().name);
+    $("#displayDest").html(snapshot.val().heading);
+    $("#displayFreq").html(snapshot.val().howOften);
+    $("#displayNextAr").html(snapshot.val().when);
+    $("#displayMinutes").html(snapshot.val().when);
+    
+})
