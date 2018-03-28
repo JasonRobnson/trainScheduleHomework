@@ -52,7 +52,7 @@ firebase.database().ref().orderByChild("dateAdded").limitToLast(1).on("child_add
     $("#displayTname").html(snapshot.val().name);
     $("#displayDest").html(snapshot.val().heading);
     $("#displayFreq").html(snapshot.val().howOften);
-    $("#displayNextAr").html(snapshot.val().howClose);
-    $("#displayMinutes").html(snapshot.val().when);
+    $("#displayNextAr").html(snapshot.val().when);
+    $("#displayMinutes").html(snapshot.val().howClose);
     
 })
