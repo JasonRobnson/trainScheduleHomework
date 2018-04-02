@@ -10,14 +10,14 @@
     messagingSenderId: "971069667233"
   };
 
-  firebase.initializeApp(config);
+  firebase.initializeApp(config);   
 
   let trainName =  "";
   let destination = "";
   let frequency = "";
   let arrival = "";
   let minutesAway = "";
-
+ 
   //event handler for the submit button, upon clicking this handler assigns the form values to variables
 $("#submitButton").on("click", function(e){
     console.log("Submit Button has been clicked!");
@@ -25,7 +25,7 @@ $("#submitButton").on("click", function(e){
     trainName = $("#addTrainName").val().trim(); 
     destination = $("#addDestination").val().trim();
     frequency = $("#addFrequency").val().trim();
-    arrival = $("#addNextArrival").val().trim();
+    arrival = moment($("#addNextArrival").val().trim(),"hh:mm").format("X");
     minutesAway = $("#addMinutesAway").val().trim();
  
 //This creates an object on the database, by creating a key, and then assigning a value Key:Value
@@ -40,9 +40,25 @@ $("#submitButton").on("click", function(e){
 });
 //this grabs the info from the database, creates another row and <td>, and adds the new row AFTER the .traininfo row
 firebase.database().ref().on("child_added", function(snapshot){
-    $(".traininfo").after("<tr><td>" + snapshot.val().name +"</td><td>" + snapshot.val().heading +"</td><td>" + snapshot.val().howOften + "</td><td>" + snapshot.val().when + "</td><td>" + snapshot.val().howClose + "</td></tr>"); 
+    let trainHowOften = snapshot.val().howOften;
+  
+    //change arrival to snapshot.val later
+    let timeDifference = moment().diff(moment.unix(arrival),"minutes");
+   
+   //time left over from current time
+    let trainFrequency = timeDifference % trainHowOften ;
+    
+    let trainMinutesNext =  trainHowOften - trainFrequency;
+    console.log (trainMinutesNext);
+    
+    let finalArrivalTime = moment().add(trainMinutesNext,"m").format("hh:mm");
+    
+   
+    $(".traininfo").after("<tr><td>" + snapshot.val().name +"</td><td>" + snapshot.val().heading +"</td><td>" + snapshot.val().howOften + "</td><td>" + finalArrivalTime + "</td><td>" + trainMinutesNext + "</td></tr>"); 
 
-});
+    
+
+}); 
 // this is for a single use to deposit one item into the #id
 // firebase.database().ref().orderByChild("dateAdded").limitToLast(3).on("child_added",function(snapshot){
 //     $("#displayTname").html(snapshot.val().name);
@@ -52,3 +68,9 @@ firebase.database().ref().on("child_added", function(snapshot){
 //     $("#displayMinutes").html(snapshot.val().howClose);
     
 // })
+
+
+
+
+
+//somehow need to conver time, and get the difference from--  current time - next arrival 
