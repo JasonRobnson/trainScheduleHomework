@@ -59,18 +59,3 @@ firebase.database().ref().on("child_added", function(snapshot){
     
 
 }); 
-// this is for a single use to deposit one item into the #id
-// firebase.database().ref().orderByChild("dateAdded").limitToLast(3).on("child_added",function(snapshot){
-//     $("#displayTname").html(snapshot.val().name);
-//     $("#displayDest").html(snapshot.val().heading);
-//     $("#displayFreq").html(snapshot.val().howOften);
-//     $("#displayNextAr").html(snapshot.val().when);
-//     $("#displayMinutes").html(snapshot.val().howClose);
-    
-// })
-
-
-
-
-
-//somehow need to conver time, and get the difference from--  current time - next arrival 
